@@ -1,3 +1,8 @@
+
+"""
+Adapted from Adapt documentation at https://adapt.mycroft.ai/adapt/examples by seanfitz
+"""
+
 from flask import Flask, jsonify
 from flask import request
 from adapt.entity_tagger import EntityTagger
