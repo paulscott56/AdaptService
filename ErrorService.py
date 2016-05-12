@@ -75,4 +75,4 @@ def parseString():
 
 
 if __name__ == '__main__':
-    app.run(host= '192.168.7.145', debug=True)
+    app.run(host='0.0.0.0')
