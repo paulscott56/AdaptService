@@ -19,6 +19,8 @@ RUN apt-get install -y python python-dev python-distribute python-pip
 # Copy the application folder inside the container
 RUN git clone https://github.com/paulscott56/AdaptService.git /adapt
 
+RUN pip install -e git+https://github.com/mycroftai/adapt#egg=adapt-parser
+
 # Get pip to download and install requirements:
 RUN pip install -r /adapt/requirements.txt
 
@@ -26,7 +28,7 @@ RUN pip install -r /adapt/requirements.txt
 EXPOSE 5000
 
 # Set the default directory where CMD will execute
-WORKDIR /AdaptService
+WORKDIR /adapt
 
 # Set the default command to execute    
 # when creating a new container
