@@ -11,6 +11,9 @@ from adapt.tools.text.trie import Trie
 from adapt.intent import IntentBuilder
 from adapt.parser import Parser
 from adapt.engine import IntentDeterminationEngine
+from datetime import datetime
+from datetime import timedelta
+import urllib2
 
 app = Flask(__name__)
 
@@ -53,14 +56,17 @@ locations = [
     "Vienna",
     "Denver",
     "Cape Town",
-    "Killarney"
+    "Killarney",
+    "Munich"
 ]
+
+loccodes = {"Munich" : 626, "Dublin" : 1370, "Vienna" : 2225, "Denver" : 1869, "Cape Town": 1674, "Killarney" : 1366}
 
 for loc in locations:
     engine.register_entity(loc, "Location")
 
 days = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+    "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"
 ]
 
 for d in days:
@@ -85,9 +91,24 @@ engine.register_intent_parser(car_intent)
 def parseString():
     string = request.args.get('string')
     for intent in engine.determine_intent(string):
-        print intent.get('confidence')
         if intent.get('confidence') > 0:
-            return jsonify(intent)
+            # Get the location code from the parsed intent
+            locationKeyword = intent["Location"]
+            loccode = loccodes[locationKeyword]
+
+            # get the dates
+            year = 2017
+            daynum = intent["DayKeyword"][:-2]
+            month = intent["MonthKeyword"]
+            fromdatestr = str(daynum) + "/" + month + "/" + str(year)
+            fromdate = datetime.strptime(fromdatestr, '%d/%B/%Y')
+            fdate = fromdate.strftime('%d/%B/%Y')
+            todate = fromdate + timedelta(days=5)
+            tdate = todate.strftime('%d/%B/%Y')
+            # we assume a 5 day long rental, because I said so...
+            url = 'https://api.mobacartest.com/v1/1/quotes?searchCurrency=GBP&age=44&countryResISO=GB&dateFrom=' + fdate + '&dateTo=' + tdate + '&TimeFrom=10:00&TimeTo=10:00&pickupLocID=' + str(loccode) + '&dropoffLocID=' + str(loccode)
+            quotes =  urllib2.urlopen(url).read()
+            return quotes #jsonify(intent)
         else:
             return 'intent not recognized'
 
