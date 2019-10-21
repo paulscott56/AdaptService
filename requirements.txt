@@ -9,7 +9,7 @@ Pillow==2.3.0
 PyOpenGL==3.0.2
 Twisted-Core==13.2.0
 Twisted-Web==13.2.0
-Werkzeug==0.12.1
+Werkzeug==0.15.3
 -e git+https://github.com/mycroftai/adapt@3bb3bc56ffe1f7f0c0f591b7acd731c6388dd50a#egg=adapt_parser-origin/master
 adium-theme-ubuntu==0.3.4
 aniso8601==1.2.0
