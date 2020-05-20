@@ -28,7 +28,7 @@ esptool==0.1.0
 gevent==1.1.1
 greenlet==0.4.10
 html5lib==0.999
-httplib2==0.8
+httplib2==0.18.0
 itsdangerous==0.24
 lockfile==0.8
 lxml==3.3.3
