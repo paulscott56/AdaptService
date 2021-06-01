@@ -71,7 +71,7 @@ system-service==0.1.6
 tensorflow==0.5.0
 tornado==3.1.1
 unity-lens-photos==1.0
-urllib3==1.7.1
+urllib3==1.26.5
 virtualenv==15.0.2
 virtualenv-clone==0.2.6
 virtualenvwrapper==4.7.1
